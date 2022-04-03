@@ -35,7 +35,7 @@ class SWAPIImporter(ABC):
 
     def create_csv_file(self) -> Path:
         file_created = False
-        headers = self.get_schema()
+        headers = self.schema
         while file_created is False:
             path = Path(
                 settings.MEDIA_ROOT
@@ -51,7 +51,8 @@ class SWAPIImporter(ABC):
                 pass
         return path
 
-    def get_schema(self):
+    @property
+    def schema(self):
         try:
             schema = self.retriever.retrieve_one(f"{self.config.endpoint}/schema").get(
                 "properties", {}

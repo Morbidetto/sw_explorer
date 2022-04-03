@@ -28,8 +28,9 @@ class CharacterImporter(SWAPIImporter):
         planet_data = self.retriever.retrieve_one(swapi_url)
         return planet_data.get("name", "")
 
-    def get_schema(self):
-        schema = super().get_schema()
+    @property
+    def schema(self) -> list:
+        schema = super().schema
         return [field if field != "edited" else "date" for field in schema]
 
     def transform_data(self, data):
