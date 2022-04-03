@@ -23,6 +23,10 @@ services:
       - db
     env_file:
       - docker.env
+    volumes:
+      - .:/code
+    environment:
+    - PYTHONUNBUFFERED=1
 
 volumes:
   sw_db:
