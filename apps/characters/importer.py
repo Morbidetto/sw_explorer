@@ -1,6 +1,7 @@
 from functools import cached_property, lru_cache
 
 from dateutil import parser
+from petl.util.base import Table
 
 from core.importer import ImporterConfig, SWAPIImporter
 from characters.models import CharactersCsvFile
@@ -33,7 +34,7 @@ class CharacterImporter(SWAPIImporter):
         schema = super().schema
         return [field if field != "edited" else "date" for field in schema]
 
-    def transform_data(self, data):
+    def transform_data(self, data: Table) -> Table:
         return (
             data.cutout(*self.config.dropped_fields)
             .rename("edited", "date")

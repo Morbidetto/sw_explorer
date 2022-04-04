@@ -11,7 +11,7 @@ class SWAPIException(Exception):
 
 
 class SWAPIRetriever:
-    def __init__(self):
+    def __init__(self) -> None:
         self.session = requests.Session()
 
     def retrieve_all(self, endpoint: str = "") -> Iterator[dict]:

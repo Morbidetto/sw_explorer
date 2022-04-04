@@ -44,7 +44,7 @@ class SWAPIImporter(ABC):
             )
             try:
                 with path.open(mode="x") as csv_file:
-                    csv_file.write(str(headers))
+                    csv_file.write(",".join(headers))
                     csv_file.write("\n")
                     file_created = True
             except FileExistsError:
@@ -52,7 +52,7 @@ class SWAPIImporter(ABC):
         return path
 
     @property
-    def schema(self):
+    def schema(self) -> list:
         try:
             schema = self.retriever.retrieve_one(f"{self.config.endpoint}/schema").get(
                 "properties", {}
@@ -74,7 +74,7 @@ class SWAPIImporter(ABC):
                 etl_data = etl.fromdicts(source_data)
                 self.transform_data(etl_data).appendcsv(path)
             db_file = self.config.model_class()
-            db_file.file.name = os.path.join(path.parts[1:])
+            db_file.file.name = os.path.join(*path.parts[3:])
             db_file.save()
             return db_file
         except SWAPIException as exc:
