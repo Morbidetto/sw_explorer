@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from functools import cached_property
+from functools import cached_property, wraps
 import uuid
 from pathlib import Path
 from typing import Union
@@ -15,6 +15,15 @@ from core.retriever import SWAPIRetriever, SWAPIException
 
 logger = logging.getLogger(__name__)
 
+def return_none_during_api_failure(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+        except SWAPIException as exc:
+            logger.exception(exc)
+            return None
+    return decorated_function
 
 @dataclass
 class ImporterConfig:
@@ -67,16 +76,13 @@ class SWAPIImporter(ABC):
     def transform_data(self, data):
         return NotImplementedError
 
+    @return_none_during_api_failure
     def import_data(self) -> Union[None, Model]:
-        try:
-            path = self.create_csv_file()
-            for source_data in self.retriever.retrieve_all(self.config.endpoint):
-                etl_data = etl.fromdicts(source_data)
-                self.transform_data(etl_data).appendcsv(path)
-            db_file = self.config.model_class()
-            db_file.file.name = os.path.join(*path.parts[3:])
-            db_file.save()
-            return db_file
-        except SWAPIException as exc:
-            logger.exception(exc)
-            return None
+        path = self.create_csv_file()
+        for source_data in self.retriever.retrieve_all(self.config.endpoint):
+            etl_data = etl.fromdicts(source_data)
+            self.transform_data(etl_data).appendcsv(path)
+        db_file = self.config.model_class()
+        db_file.file.name = os.path.join(*path.parts[3:])
+        db_file.save()
+        return db_file

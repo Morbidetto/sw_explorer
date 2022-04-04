@@ -9,6 +9,7 @@ from django.test import RequestFactory
 from characters.models import CharactersCsvFile
 from characters.importer import CharacterImporter
 from characters.views import CharactersDetailView
+from core.retriever import SWAPIException
 
 class TestCharacterImporter:
     @pytest.fixture(autouse=True)
@@ -85,6 +86,11 @@ class TestCharacterImporter:
         transformed_table = etl.records(transformed_table)
         assert transformed_table[0]["date"] == date(2014, 12, 20)
         assert transformed_table[0]["homeworld"] == self.planet_name
+
+    def test_api_failure(self):
+        self.importer.create_csv_file = mock.MagicMock()
+        self.importer.create_csv_file.side_effect = SWAPIException()
+        assert self.importer.import_data() is None
 
 
 @pytest.mark.django_db
