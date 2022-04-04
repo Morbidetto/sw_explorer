@@ -32,8 +32,8 @@ class SWAPIRetriever:
         )
         try:
             response = self.session.get(endpoint)
-        except requests.exceptions.RequestException:
-            raise SWAPIException("Request exception")
+        except requests.exceptions.RequestException as exc:
+            raise SWAPIException("Request exception") from exc
         if response.status_code == HTTPStatus.OK:
             content = ujson.loads(response.content)
             return content

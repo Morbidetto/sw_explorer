@@ -5,16 +5,18 @@ description = "Tool to fetch and store SW characters info"
 authors = ["Jakub Ledwon"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-Django = "^4.0.3"
-requests = "^2.27.1"
-petl = "^1.7.8"
-psycopg2 = "^2.9.3"
-ujson = "^5.1.0"
-python-dateutil = "^2.8.2"
+python = "^3.10"
+Django = "4.0.3"
+requests = "2.27.1"
+petl = "1.7.8"
+psycopg2 = "2.9.3"
+ujson = "5.1.0"
+python-dateutil = "2.8.2"
 
 [tool.poetry.dev-dependencies]
-ipython = "^8.2.0"
+ipython = "8.2.0"
+pytest-django = "4.5.2"
+responses = "0.20.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
