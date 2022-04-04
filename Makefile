@@ -3,7 +3,7 @@ tests:
 	docker-compose stop
 
 migrate:
-	docker-compose run --rm django python manage.py migrate
+	docker-compose run --rm django sh -c "sleep 10 && python manage.py migrate"
 	docker-compose stop
 
 makemigrations:
