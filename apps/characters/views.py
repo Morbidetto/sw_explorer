@@ -19,8 +19,7 @@ class CharactersListView(ListView):
 class CharactersDetailView(DetailView):
     model = CharactersCsvFile
 
-    def get_records(
-        self, count_columns: str, limit: int, model: CharactersCsvFile) -> dict:
+    def get_records(self, count_columns: str, limit: int, model: CharactersCsvFile) -> dict:
         dataset = etl.fromcsv(settings.MEDIA_ROOT / model.file.name)
         headers = etl.header(dataset)
         if count_columns:

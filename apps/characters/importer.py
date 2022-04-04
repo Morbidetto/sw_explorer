@@ -32,7 +32,7 @@ class CharacterImporter(SWAPIImporter):
     @property
     def schema(self) -> list:
         schema = super().schema
-        return [field if field != "edited" else "date" for field in schema]
+        return sorted([field if field != "edited" else "date" for field in schema])
 
     def transform_data(self, data: Table) -> Table:
         return (
