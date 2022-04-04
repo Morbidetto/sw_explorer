@@ -1,7 +1,7 @@
 FROM python:alpine3.15
 
 # Required packages for poetry and psycop
-RUN apk add --no-cache gcc musl-dev libffi-dev postgresql-dev
+RUN apk add --no-cache gcc musl-dev libffi-dev postgresql-dev g++
 
 RUN pip install poetry --quiet
 WORKDIR /code

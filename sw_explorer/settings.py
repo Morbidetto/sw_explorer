@@ -129,5 +129,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT =  BASE_DIR / "files"
-SWAPI_URL = "https://swapi.dev/api/"
-#SWAPI_URL = "http://127.0.0.1:8001/api/"
+
+#SWAPI_URL = "https://swapi.dev/api/"
+SWAPI_URL = "http://swapi:8000/api/"

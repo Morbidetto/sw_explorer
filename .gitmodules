@@ -1,0 +1,3 @@
+[submodule "swapi"]
+	path = swapi
+	url = https://github.com/Juriy/swapi
