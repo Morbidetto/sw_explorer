@@ -34,17 +34,5 @@ services:
       dockerfile: ./Dockerfile
       context: ./swapi/
 
-  migrate:
-    build:
-      dockerfile: ./Dockerfile
-      context: .
-    command: python manage.py migrate
-    depends_on:
-      - db
-    env_file:
-      - docker.env
-    volumes:
-      - .:/code
-
 volumes:
   sw_db:
