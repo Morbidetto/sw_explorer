@@ -1,0 +1,56 @@
+
+
+{% extends "base_generic.html" %}
+{% load custom_text_filters %}
+{% block content %}
+<h1>Imported: {{ characterscsvfile.ctime|date:'Y-m-d H:i' }}</h1>
+<button type="button" onclick="location.href='{% url 'characters:characters-detail' characterscsvfile.id %}?limit={{ limit|add:"10" }}&count_columns={{count_columns}}'" class="btn btn-primary">Load more</button>
+{% if aggregated_headers %}
+<table class="table">
+  <thead>
+     <tr>
+        <th scope="col">#</th>
+        {% for header in aggregated_headers %}
+        <th scope="col">{{header}}</th>
+        {% endfor %}
+
+     </tr>
+  </thead>
+  <tbody>
+     {% for row in aggregated_records %}
+     <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        {% for column in row %}
+        <td>{{column}}</td>
+        {% endfor %}
+     </tr>
+     {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+<h2>Click on column names to count combination of values</h2>
+<table class="table">
+   <thead>
+      <tr>
+         <th scope="col">#</th>
+         {% for header in headers %}
+         <th scope="col"><button type="button" onclick=
+          "location.href='{% url 'characters:characters-detail' characterscsvfile.id %}?limit={{limit}}&count_columns={% if not header in count_columns %}{{ header }},{{count_columns}}{% else %}{{ count_columns|cut_from_count_columns:header }}{% endif %}'"
+           class="btn {% if header in count_columns %}btn-success{% else %}btn-light{% endif %}">{{header}}</button></th>
+         {% endfor %}
+      </tr>
+   </thead>
+   <tbody>
+      {% for row in records %}
+      <tr>
+         <th scope="row">{{ forloop.counter }}</th>
+         {% for column in row %}
+         <td>{{column}}</td>
+         {% endfor %}
+      </tr>
+      {% endfor %}
+   </tbody>
+</table>
+
+{% endblock %}
+
