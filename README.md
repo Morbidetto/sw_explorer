@@ -16,7 +16,7 @@ Appplication is dockerized and contains self-hosted SWAPI instance as a git-subm
 * You can now launch application by '`make start`
 * Go to http://127.0.0.1:8000/ to explore the app and click on Characters module.
 * To run tests run `make tests`
-* If you want to use another SWAPI instance than edit `SWAPI_URL` setting
+* If you want to use another SWAPI instance then edit `SWAPI_URL` setting
 
 ### To do
 * FE could use some love, like proper React app.
