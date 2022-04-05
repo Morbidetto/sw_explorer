@@ -24,3 +24,4 @@ Appplication is dockerized and contains self-hosted SWAPI instance as a git-subm
 * Pagination should be added to CharactersDetailView for large files and large row limit to prevent user from loading entire file to memory.
 * Production docker-compose should be created which would use uWSGI/gunicorn and nginx instead of Django server
 * Tests for file operations
+* Add queue and task system for downloading data
